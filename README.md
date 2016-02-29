@@ -1,4 +1,4 @@
-<pre>
+
 Console tool for numeric column summation with high precision
 
 Max meaningful row line length: 64
@@ -10,11 +10,11 @@ Install
     $ sudo aptitude install libmpfr-dev
     Or manually from: http://www.mpfr.org
 
-    $ cd <sum-src>
+    $ cd {sum-src}
     $ make
     
 Usage
-    $ <path-to-sum-bin> [-s] < <numeric-data>
+    $ {path-to-sum-bin} [-s] < {numeric-data}
 
     Flags:
         -s      - Strict mode. Disable spaces trim.
@@ -32,10 +32,9 @@ Usage
                         "100zzz"    ->  exit with error         exit with error
                         "zzz100"    ->  exit with error         exit with error
 
-    <numeric-data> content format
+    {numeric-data} content format
         See, for example, tests/test-1.txt, tests/test-2.txt files
 
     Sample:
-        $ cd <sum-src>
+        $ cd {sum-src}
         $ ./sum < tests/test-1.txt
-</pre>
