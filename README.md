@@ -1,5 +1,5 @@
-
-Cless onsole tool for numeric column summation with high precision
+<pre>
+Console tool for numeric column summation with high precision
 
 Max meaningful row line length: 64
 Max precision: 0.000000000000001
@@ -38,3 +38,4 @@ Usage
     Sample:
         $ cd <sum-src>
         $ ./sum < tests/test-1.txt
+</pre>
