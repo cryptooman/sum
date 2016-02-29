@@ -1,0 +1,57 @@
+
+                            Expect
+--------------------------------------------------------------------------------------
+test-1                      5015
+test-2                      3205.03402
+test-3-1                    5015
+test-3-2                    8036.003
+test-4                      10200400600801008230.0300000002
+test-4 (with -s flag)       err
+test-5-1                    4000000001001000013.0000000008
+test-5-2                    3300600901201501806.000000000000003
+test-5-3                    330030030030030030030030030030030030030044.000000000000003
+test-5-4                    440040040040040040040040040040040040040040410
+test-5-5                    550050050050050050050050050050050050050050050050050050065
+test-5-6                    999999999999999999999999999999999999999999999999999999999
+test-6                      err
+test-7-1                    err
+test-7-2                    err
+test-7-3                    err
+test-7-4                    err
+test-7-5                    err
+test-7-6                    err
+test-7-7                    err
+test-7-8                    err
+test-7-9                    err
+test-7-10                   0
+test-7-10 (with -s flag)    err
+test-7-11                   0
+test-7-11 (with -s flag)    err
+test-7-12                   0
+test-7-12 (with -s flag)    err
+test-15                     15151199.642669999999948
+test-16                     1537016759302.543200540859617
+
+Estimated time
+    # 1
+    sum             0m6.869s    time for i in {1..1000}; do cat tests/test-15.txt | ./sum > /dev/null; done
+
+    paste + bc      0m7.125s    time for i in {1..1000}; do cat tests/test-15.txt | paste -sd+ | bc -l > /dev/null; done
+
+    awk             0m2.576s    time for i in {1..1000}; do cat tests/test-15.txt | awk '{sum += $0} END {print sum}' > /dev/null; done
+                                Loosing precision
+
+    php             0m21.481s   time for i in {1..1000}; do php -r "echo array_sum(file('tests/test-15.txt')).\"\n\";" > /dev/null; done
+                                Loosing precision
+
+    # 2
+    sum             0m9.558s    time for i in {1..1000}; do cat tests/test-16.txt | ./sum > /dev/null; done
+
+    paste + bc      0m6.411s    time for i in {1..1000}; do cat tests/test-16.txt | paste -sd+ | bc -l > /dev/null; done
+
+    awk             0m3.622s    time for i in {1..1000}; do cat tests/test-16.txt | awk '{sum += $0} END {print sum}' > /dev/null; done
+                                Loosing precision
+
+    php             0m23.443s   time for i in {1..1000}; do php -r "echo array_sum(file('tests/test-16.txt')).\"\n\";"; done
+                                Loosing precision
+

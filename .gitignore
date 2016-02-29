@@ -1,0 +1,5 @@
+.hg*
+*__tmp__*
+*.directory
+/sum
+/sum-fast
