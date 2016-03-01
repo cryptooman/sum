@@ -1,5 +1,5 @@
 
-Summation of numeric data column with high precision
+Summation, average, min/max value of numeric data column with high precision
 
 <pre>
 Max meaningful row line length: 64
@@ -15,20 +15,31 @@ Install
     $ make
     
 Usage
-    $ {path-to-sum-bin} [-s] < {numeric-data}
+    $ {path-to-sum-bin} sum [-h|-s|-a|-mi|-ma] [--strict] < {numeric-column-data}
 
     Flags:
-        -s      - Strict mode. Disable spaces trim.
-                  By default each empty line is converted to zero and line spaces are trimmed
+        -h          Help
 
-                  Conversion notes
-                                        default                 strict
+        -s          Return summation value only
+
+        -a          Return average value only
+
+        -mi         Return minimum value only
+
+        -mi         Return maximum value only
+
+        --strict    Strict mode
+                    Disable line spaces trim and empty lines ignore
+
+                    Conversion notes
+                                        default                 --strict
                         "0100"      ->  "100"                   "100"
                         " 100"      ->  "100"                   "100"
                         "100 "      ->  "100"                   exit with error
                         " 100 "     ->  "100"                   exit with error
-                        ""          ->  "0"                     exit with error
-                        "   "       ->  "0"                     exit with error
+                        ""          ->  skip line               exit with error
+                        "\n"        ->  skip line               exit with error
+                        "   "       ->  skip line               exit with error
                         " 100 0"    ->  exit with error         exit with error
                         "100zzz"    ->  exit with error         exit with error
                         "zzz100"    ->  exit with error         exit with error
@@ -38,5 +49,11 @@ Usage
 
     Sample:
         $ cd {sum-src}
-        $ ./sum < tests/test-1.txt
+        $ ./sum < tests/test-2.txt
+
+        Output:
+            Sum     : 3205.03402
+            Avg     : 188.531412941176471
+            Min     : -1009.01
+            Max     : 1008.01
 </pre>
