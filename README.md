@@ -1,8 +1,9 @@
 
-Console tool for numeric column summation with high precision
+Summation of numeric data column with high precision
 
+<pre>
 Max meaningful row line length: 64
-Max precision: 0.000000000000001
+Max precision: 1.00000e-15
 Max integer: 9.99999e+56
 Max float with precision preserve: 9.99999e+56
 
@@ -33,8 +34,9 @@ Usage
                         "zzz100"    ->  exit with error         exit with error
 
     {numeric-data} content format
-        See, for example, tests/test-1.txt, tests/test-2.txt files
+        See samples: tests/test-1.txt, tests/test-2.txt
 
     Sample:
         $ cd {sum-src}
         $ ./sum < tests/test-1.txt
+</pre>

@@ -55,3 +55,15 @@ Estimated time
     php             0m23.443s   time for i in {1..1000}; do php -r "echo array_sum(file('tests/test-16.txt')).\"\n\";"; done
                                 Loosing precision
 
+    #3 (Summation of 8544016 numeric rows from log file)
+    
+    sum             1m17.996s
+    
+    paste + bc      1m21.308s    
+    
+                                
+                                
+                                
+                             
+                             
+                             
