@@ -19,7 +19,7 @@ Usage
 
     Flags:
         -s      - Strict mode. Disable spaces trim.
-                  By default each empty line are converted to zero and line spaces are trimmed
+                  By default each empty line is converted to zero and line spaces are trimmed
 
                   Conversion notes
                                         default                 strict
