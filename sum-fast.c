@@ -2,6 +2,7 @@
     gcc -std=c99 -O3 sum-fast.c -o sum-fast
 
                     Expect
+    -------------------------------
     test-1          5015
     test-2          3205.03402
     test-3-1        5015
@@ -30,9 +31,17 @@
     test-16         1.5370167593e+12
 
     Estimated time
-        sum             0m2.649s                time for i in {1..1000}; do cat tests/test-15.txt | ./sum-fast > /dev/null; done
-        paste + bc      0m7.125s                time for i in {1..1000}; do cat tests/test-15.txt | paste -sd+ | bc -l > /dev/null; done
-        awk             0m2.576s                time for i in {1..1000}; do cat tests/test-15.txt | awk '{sum += $0} END {print sum}' > /dev/null; done
+        # 1
+        sum-fast        0m2.649s        time for i in {1..1000}; do cat tests/test-15.txt | ./sum-fast > /dev/null; done
+        paste + bc      0m7.125s        time for i in {1..1000}; do cat tests/test-15.txt | paste -sd+ | bc -l > /dev/null; done
+        awk             0m2.576s        time for i in {1..1000}; do cat tests/test-15.txt | awk '{sum += $0} END {print sum}' > /dev/null; done
+
+        #2 (Summation of 8544016 numeric rows from log file)
+        sum-fast        1m12.870s       time cat <big-log-file> | cut -f2 | ./sum-fast
+
+        paste + bc      1m21.308s       time cat <big-log-file> | cut -f2 | paste -sd+ | bc -l
+
+        awk             1m13.935s       time cat <big-log-file> | cut -f2 | awk '{sum += $1} END {print sum}'
 */
 
 #include <stdio.h>

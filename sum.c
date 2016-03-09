@@ -28,7 +28,7 @@ unsigned long long int __total_lines__ = 0;
 #define MODE_MAX 4
 int __mode__ = MODE_DEFAULT;
 
-inline void add_value(mpfr_t *sum, mpfr_t *line_val, const char *line);
+inline int add_value(mpfr_t *sum, mpfr_t *line_val, const char *line);
 
 inline char *trim(char *str);
 
@@ -106,6 +106,9 @@ int main(int argc, char* argv[])
     char line[MAX_LINE_LEN + 1];
     int ch_pos = 0;
 
+    bool min_value_found = 0;
+    bool max_value_found = 0;
+
     while(1)
     {
         ch = getchar();
@@ -113,27 +116,44 @@ int main(int argc, char* argv[])
         if(ch == EOF)
         {
             line[ch_pos] = '\0';
-            add_value(&sum_value, &line_val, line);
 
-            if(mpfr_cmp(min_value, line_val) > 0)
-                mpfr_set(min_value, line_val, __MPFR_ROUND);
+            if(!add_value(&sum_value, &line_val, line))
+            {
+                if(mpfr_cmp(min_value, line_val) > 0)
+                {
+                    mpfr_set(min_value, line_val, __MPFR_ROUND);
+                    min_value_found = true;
+                }
 
-            if(mpfr_cmp(max_value, line_val) < 0)
-                mpfr_set(max_value, line_val, __MPFR_ROUND);
+                if(mpfr_cmp(max_value, line_val) < 0)
+                {
+                    mpfr_set(max_value, line_val, __MPFR_ROUND);
+                    max_value_found = true;
+                }
+            }
 
             break;
         }
         else if(ch == '\n')
         {
             line[ch_pos] = '\0';
-            add_value(&sum_value, &line_val, line);
+
+            if(!add_value(&sum_value, &line_val, line))
+            {
+                if(mpfr_cmp(min_value, line_val) > 0)
+                {
+                    mpfr_set(min_value, line_val, __MPFR_ROUND);
+                    min_value_found = true;
+                }
+
+                if(mpfr_cmp(max_value, line_val) < 0)
+                {
+                    mpfr_set(max_value, line_val, __MPFR_ROUND);
+                    max_value_found = true;
+                }
+            }
+
             ch_pos = 0;
-
-            if(mpfr_cmp(min_value, line_val) > 0)
-                mpfr_set(min_value, line_val, __MPFR_ROUND);
-
-            if(mpfr_cmp(max_value, line_val) < 0)
-                mpfr_set(max_value, line_val, __MPFR_ROUND);
 
             ++__scan_line_num__;
         }
@@ -149,6 +169,13 @@ int main(int argc, char* argv[])
             }
         }
     }
+
+    // Set min, max = 0 if no min, max found (in case of empty lines data provided)
+    if(!min_value_found)
+        mpfr_set_d(min_value, 0, __MPFR_ROUND);
+
+    if(!max_value_found)
+        mpfr_set_d(max_value, 0, __MPFR_ROUND);
 
     char sum_formatted[MAX_LINE_LEN + 1];
     char avg_formatted[MAX_LINE_LEN + 1];
@@ -227,11 +254,13 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-inline void add_value(mpfr_t *sum, mpfr_t *line_val, const char *line)
+inline int add_value(mpfr_t *sum, mpfr_t *line_val, const char *line)
 {
     #if DEBUG
         fprintf(stderr, "%d: Value: %s at line %d\n", __LINE__, line, __scan_line_num__);
     #endif
+
+    int is_line_empty = 0;
 
     if(mpfr_set_str(*line_val, line, __MPFR_BASE, __MPFR_ROUND) == -1)
     {
@@ -245,6 +274,8 @@ inline void add_value(mpfr_t *sum, mpfr_t *line_val, const char *line)
             {
                 line_fixed[0] = '0';
                 line_fixed[1] = '\0';
+
+                is_line_empty = 1;
             }
             else
                 ++__total_lines__;
@@ -265,6 +296,8 @@ inline void add_value(mpfr_t *sum, mpfr_t *line_val, const char *line)
         ++__total_lines__;
 
     mpfr_add(*sum, *sum, *line_val, __MPFR_ROUND);
+
+    return is_line_empty;
 }
 
 inline char *trim(char *str)
