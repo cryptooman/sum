@@ -49,11 +49,16 @@ Usage
 
     Sample:
         $ cd {sum-src}
-        $ ./sum < tests/test-2.txt
 
-        Output:
-            Sum     : 3205.03402
-            Avg     : 188.531412941176471
-            Min     : -1009.01
-            Max     : 1008.01
+        # 1
+        $ ./sum < tests/test-2.txt
+        Sum     : 3205.03402
+        Avg     : 188.531412941176471
+        Min     : -1009.01
+        Max     : 1008.01
+
+        # 2
+        $ echo -e "101\n102" | ./sum -s
+        203
+
 </pre>
